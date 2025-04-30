@@ -2,14 +2,14 @@ import numpy as np
 import pyaudio
 from faster_whisper import WhisperModel
 
-class daveBot:
+class dave_speech_recognition:
     def __init__(self):
-        self.TRIGGER_WORDS   = ["dave", "hey dave"]
-        self.SAMPLE_RATE     = 16000
-        self.CHUNK_DURATION  = 0.5      # seconds
-        self.SILENCE_TIMEOUT = 5.0      # seconds of silence to end a command
+        self.TRIGGER_WORDS    = ["hey", "Hey", "hi", "Hi", "hello", "Hello"]
+        self.SAMPLE_RATE      = 16000
+        self.CHUNK_DURATION   = 0.5      # seconds
+        self.SILENCE_TIMEOUT  = 2.0      # seconds of silence to end a command
         self.SILENCE_TRESHOLD = 0.01    # threshold for silence detection
-        self.WHISPER_MODEL   = "tiny.en"
+        self.WHISPER_MODEL    = "base.en"
 
         self.CHUNK_SIZE = int(self.SAMPLE_RATE * self.CHUNK_DURATION)
         self.FORMAT     = pyaudio.paInt16
