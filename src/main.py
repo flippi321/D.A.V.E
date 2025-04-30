@@ -1,5 +1,5 @@
-from models.dave_speech_recognition import daveBot
+from models.speech_recognition import dave_speech_recognition
 
-dave = daveBot()
+dave = dave_speech_recognition()
 dave.setup()
 dave.run()
