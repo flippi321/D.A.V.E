@@ -7,6 +7,7 @@ class dave_speech_recognition:
         self.TRIGGER_WORDS    = ["hey", "Hey", "hi", "Hi", "hello", "Hello"]
         self.SAMPLE_RATE      = 16000
         self.CHUNK_DURATION   = 0.5      # seconds
+        self.SPEECH_GRACE     = 4.0      # seconds of silence allowed before timeout applies
         self.SILENCE_TIMEOUT  = 2.0      # seconds of silence to end a command
         self.SILENCE_TRESHOLD = 0.01    # threshold for silence detection
         self.WHISPER_MODEL    = "base.en"
@@ -39,6 +40,7 @@ class dave_speech_recognition:
         try:
             buffer = []
             triggered = False
+            total_chunks = 0
             silent_chunks = 0
 
             while True:
@@ -64,8 +66,10 @@ class dave_speech_recognition:
                         silent_chunks += 1
                     else:
                         silent_chunks = 0
-
-                    if silent_chunks >= int(self.SILENCE_TIMEOUT / self.CHUNK_DURATION):
+                    total_chunks += 1
+                    
+                    # If we have enough silence, stop recording and transcribe
+                    if silent_chunks >= int(self.SILENCE_TIMEOUT / self.CHUNK_DURATION) and total_chunks >= int(self.SPEECH_GRACE / self.CHUNK_DURATION):
                         # Stop recording and transcribe
                         print("Transcribing your request...")
                         full_audio = np.concatenate(buffer)
